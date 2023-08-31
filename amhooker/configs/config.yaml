@@ -1,0 +1,6 @@
+timeZone: "Asia/ Ho_Chi_Minh"
+timeOutputFormat: "01/01/2004 11:11:11"
+splitMessageBytes: 4000
+telegram:
+  enabled: true
+  botToken: "6661343284:AAH72CLzmOTACNvMzpXTGUTzojpocKZK3TU"

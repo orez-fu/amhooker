@@ -1,0 +1,3 @@
+debug: DEBUG
+port: 8866
+alert_config_path: "amhooker/configs/config.yaml"
