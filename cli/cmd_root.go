@@ -23,7 +23,10 @@ var rootCmd = &cobra.Command{
 }
 
 func runRootJob() (err error) {
-	GlobalConfig.Print()
+	// GlobalConfig.Print()
+	if GlobalConfig.AlertConfigPath == "" {
+		log.Fatal("alert configuration file not found. Plase passing amhooker configuration file from env \"AMHOOKER_CONFIG_FILE=<file_path>\" or command option \"--config_file=<file_path>\"")
+	}
 
 	amhookerApp := amhooker.NewAMHookerApp(
 		GlobalConfig.Port,

@@ -12,14 +12,13 @@ import (
 type config struct {
 	DebugMode       string `mapstructure:"debug" structs:"debug" env:"AMHOOKER_DEBUG_MODE"`
 	Port            int    `mapstructure:"port" structs:"port" env:"AMHOOKER_PORT"`
-	AlertConfigPath string `mapstructure:"alert_config_path" structs:"alert_config_path" env:"ALERT_CONFIG_PATH"`
-	// SensitiveData string `mapstructure:"sensitive_data" structs:"sensitive_data" env:"SENSITIVE_DATA" conform:"redact"`
+	AlertConfigPath string `mapstructure:"config_file" structs:"config_file" env:"AMHOOKER_CONFIG_FILE"`
 }
 
 var defaultConfig = &config{
 	DebugMode:       "INFO",
 	Port:            8866,
-	AlertConfigPath: "amhooker/config/config.yaml",
+	AlertConfigPath: "",
 }
 
 var GlobalConfig *config
@@ -45,9 +44,9 @@ func configInit() error {
 
 // cliFlags defines cli parameters for all config options
 func cliFlags() {
-	rootCmd.PersistentFlags().String("debug", defaultConfig.DebugMode, "Type of debug mode: INFO | DEBUG | NONE")
-	rootCmd.PersistentFlags().Int("port", defaultConfig.Port, "Running application port")
-	rootCmd.PersistentFlags().String("alert_config_path", defaultConfig.AlertConfigPath, "Alert Manager Config Path")
+	rootCmd.PersistentFlags().String("debug", defaultConfig.DebugMode, "Type of debug mode: INFO | DEBUG | NONE . (env AMHOOKER_DEBUG_MODE)")
+	rootCmd.PersistentFlags().Int("port", defaultConfig.Port, "Running application port. (env AMHOOKER_PORT)")
+	rootCmd.PersistentFlags().String("config_file", defaultConfig.AlertConfigPath, "AMHooker manager config file (*require) (env AMHOOKER_CONFIG_FILE)")
 }
 
 //bindFlagsAndEnv will assign the environment variables to the cli parameters
@@ -95,7 +94,7 @@ func readConfig() (*config, error) {
 	}
 
 	// read config from file
-	viper.SetConfigName("config")
+	viper.SetConfigName("dev_config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(".")
 	if err := viper.ReadInConfig(); err == nil {

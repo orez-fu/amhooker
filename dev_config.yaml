@@ -1,0 +1,4 @@
+# Configuration at root level
+debug: DEBUG
+port: 8866
+config_file: "amhooker/configs/dev_config.yaml"

@@ -1,0 +1,24 @@
+
+{{ define "telegram.content.vds" }}{{ range . }}
+---
+🪪 <b>{{ .Labels.alertname }}</b>
+{{- if .Annotations.summary }}
+📝 {{ .Annotations.summary }}{{ end }}
+{{- if .Annotations.description }}
+📖 {{ .Annotations.description }}{{ end }}
+🏷 Labels:
+{{ range $key, $val := .Labels -}}
+<i>{{ $key }}</i> = <code>{{ $val }}</code>
+{{ end }}
+{{- end }}
+{{- end }}
+
+{{ if gt (len .Alerts.Firing) 0 }}
+🔥 Alerts Firing 🔥
+{{ template "telegram.content.vds" .Alerts.Firing }}
+{{ end }}
+{{ if gt (len .Alerts.Resolved) 0 }}
+✅ Alerts Resolved ✅
+{{ template "telegram.content.vds" .Alerts.Resolved }}
+{{ end }}
+	
